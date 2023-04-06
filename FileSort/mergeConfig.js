@@ -13,7 +13,7 @@
 /**@type {mergeConfig}*/
 export const sortConfig = {
   //путь к неотсортированному файлу
-  srcFilename: 'bigfile.txt',
+  srcFilename: 'bigfile2.txt',
 
   //путь, по которому создастся отсортированный файл
   distFilename: 'bigfile_sort.txt',
