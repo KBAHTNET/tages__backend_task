@@ -43,23 +43,6 @@ export async function sortBigFile() {
   let fdNew = await open(sortFilename, 'a+');
   let ws = fdNew.createWriteStream({encoding: 'utf-8'});
 
-  // let splitter = config.strSplitter;
-
-  // /**@type {Array<StrObj>}*/
-  // const newStrObjects = [];
-  // for (let i = 0; i < sortedArr.length; i += 1) {
-  //   ws.write(splitter);
-  //   /**@type {StrObj}*/
-  //   const newStrObj = {
-  //     start: i,
-  //     end: splitter.length + i,
-  //     strNumber: i,
-  //     symbolsToSort: '',
-  //   }
-
-  //   newStrObjects.push(newStrObj);
-  // }
-
   let currentMemoryUsage = 0;
 
   for (let i = 0; i < sortedArr.length; i += 1) {
@@ -85,21 +68,6 @@ export async function sortBigFile() {
       console.log('не должно зайти сюда)), если зашло, то ГГ')
     }
   }
-
-  // let b = printMemoryUsage();
-  // const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
-  // let c = {
-  //   rss: formatMemoryUsage(b.rss - a.rss),
-  //   heapTotal: formatMemoryUsage(b.heapTotal - a.heapTotal),
-  //   heapUsed: formatMemoryUsage(b.heapUsed - a.heapUsed),
-  //   external: formatMemoryUsage(b.external - a.external)
-  // }
-
-  // console.log(c);
-
-  //объект передается по значению, 
-  //поэтому все изменения объекта внутри функции приведут к изменению передаваемого объекта
-  //await mergeSort(strList); 
    console.log(strList.length);
 }
 
@@ -127,7 +95,6 @@ function read(filename, start, end, autoclose = true) {
 
       return resolve(chunk);
     });
-    // const bufferLength = end - start;
     rs.read(end - start);
   });
 }
