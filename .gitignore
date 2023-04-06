@@ -1,2 +1,4 @@
 node_modules
 bigfile*
+Profiler*
+test.js
