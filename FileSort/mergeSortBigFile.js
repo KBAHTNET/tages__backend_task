@@ -6,8 +6,9 @@
 //#region Imports
 
 import { open } from 'fs/promises';
-import { char2Int, createStrObjects, mergeSort } from './mergeUtils.js';
+import { createStrObjects, mergeSort } from './mergeUtils.js';
 import { config } from '../FileGeneration/generateConfig.js';
+import { sortConfig } from './mergeConfig.js';
 
 //#endregion
 
@@ -21,10 +22,12 @@ import { config } from '../FileGeneration/generateConfig.js';
  * }} StrObj
  */
 
-export async function sortBigFile() {
-  const filename = 'C:/shared_fast/tages task/bigfile.txt';
-  const sortFilename = 'C:/shared_fast/tages task/bigfile_sort00.txt';
-  const fd = await open(filename, 'r')
+/**
+ * @param {string} srcFilename путь к неотсортированному файлу
+ * @param {string} distFilename путь, по которому создастся отсортированный файл
+ */
+export async function sortBigFile(srcFilename, distFilename) {
+  const fd = await open(srcFilename, 'r')
 
   // let a = printMemoryUsage();
 
@@ -35,12 +38,12 @@ export async function sortBigFile() {
   //а номер самой строки, ее начало и конец указаны в самом объекте, исходя из этого
   //можно начать запись в новый файл построчно
   //после того, как строка будет переписана, ее можно стереть из исходного файла (но делать мы этого не будем, потому что ограничения только по ОЗУ)
-  const sortedArr = (await mergeSort(strList, filename));
+  const sortedArr = (await mergeSort(strList, srcFilename));
 
   //для записи будем использовать подход 2 генерации файла (generateBigFile2.js), 
   //где используется 1 поток для записи и пока не вышли за предел предоставленной ОЗУ
   //дескриптор записи не закроем
-  let fdNew = await open(sortFilename, 'a+');
+  let fdNew = await open(distFilename, 'a+');
   let ws = fdNew.createWriteStream({encoding: 'utf-8'});
 
   let currentMemoryUsage = 0;
@@ -50,7 +53,7 @@ export async function sortBigFile() {
     currentMemoryUsage += memoryUsage;
 
     if (config.maxMemoryUse >= currentMemoryUsage) {
-      let buffer = (await read(filename, sortedArr[i].start, sortedArr[i].end));
+      let buffer = (await read(srcFilename, sortedArr[i].start, sortedArr[i].end));
       if(buffer[buffer.length - 1] !== '\n') {
         buffer += '\n'
       }
@@ -59,7 +62,7 @@ export async function sortBigFile() {
       ws.close();
       await fdNew.close();
 
-      fdNew = await open(sortFilename, 'a+');
+      fdNew = await open(distFilename, 'a+');
       ws = fdNew.createWriteStream({encoding: 'utf-8'});
 
       currentMemoryUsage = 0;
@@ -71,12 +74,12 @@ export async function sortBigFile() {
    console.log(strList.length);
 }
 
-sortBigFile();
+sortBigFile(sortConfig.srcFilename, sortConfig.distFilename);
 
 //#region ReadFileHelpers
 
 /**
- * 
+ * Прочитать часть файла в указанном диапазоне
  * @param {string} filename 
  * @param {number} start 
  * @param {number} end 
