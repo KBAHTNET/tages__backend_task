@@ -1,0 +1,10 @@
+1 thread full using RAM:
+  gen file 10MB - 0:0:0.490
+  gen file 100MB - 0:0:4.692
+  gen file 10GB - 0:7:35.212
+  expected generation time 1TB - 1:15:0.0
+
+6 threads full using RAM:
+  gen file 1MB - 0:0:0.612
+  gen file 10MB - 0:0:4.620
+  gen file 100MB - 0:0:40.978

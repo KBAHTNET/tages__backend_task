@@ -1,0 +1,4 @@
+IDE - VS Code
+Indent Using Spaces = 2
+Encoding UTF-8
+Plugins: [jsdoc]

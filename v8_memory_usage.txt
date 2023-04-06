@@ -1,0 +1,9 @@
+https://habr.com/ru/company/ruvds/blog/350240/
+
+хранение элементов в массиве
+
+number 8 байт
+string 24 байт (24 байта на указатель + байты символов)
+Object{} 64 байт
+boolean undefined и null 8 байт (ссылка на объект)
+
