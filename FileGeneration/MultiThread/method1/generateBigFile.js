@@ -67,20 +67,6 @@ export function generateFileMultiThread() {
             worker.terminate();
           });
         }
-        
-
-        // while(workers.length > 0) {
-        //   await sleep(0);
-        // }
-
-
-        // const pool = new StaticPool({
-        //   size: usingCPUs,
-        //   task: './FileGeneration/MultiThread/generateWorker.js',
-        //   workerData: {restFileLength, fd, chunksLength},
-        // });
-
-        // const result = await pool.exec();
       }
 
       while(workers.length > 0) await sleep(1);
